@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Truslide12/Liri/issues"
   },
-  "homepage": "https://github.com/Truslide12/Liri#readme"
+  "homepage": "https://github.com/Truslide12/Liri#readme",
+  "dependencies": {
+    "bandsintown": "^1.0.1"
+  }
 }
