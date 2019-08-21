@@ -34,15 +34,18 @@ fs.exists("./liri.js", (exists) => {
 // create a new object with information for the information pull
 var artistData = {
     artist: "",
-    venue: "",
-    location: "",
-    date: "",
     song: "",
     songName: "",
     previewLink: "",
     album: "",
 }
 
+var eventData = {
+    artist: "",
+    venue: "",
+    location: "",
+    date: "",
+}
 var movieData = {
     movie: "",
     year: "",
@@ -81,22 +84,22 @@ switch (command) {
         doWhatItSays()
 
     default:
-            console.log("Please enter an approprite command")
+        console.log("Please enter an approprite command")
 }
 
 //---------------- Fucntions ------------------//
-var concertThis = (uIn) => {
-    console.log(uIn);
+var concertThis = (artist) => {
+    console.log(artist);
     // find concerts based on user input
     // return name of venue
     // venue location
     // date of the event
-    bandsInTown.get("https://rest.bandsintown.com/event/13722599?app_id=foo&" + userInput + ).then(function (response) {
+    bandsInTown.get("https://rest.bandsintown.com/event/13722599?app_id=foo&" + artist + ).then(function (response) {
         console.log("Artist: " + response.data.name);
-        artistData.artist = response.data.name;
-        artistData.venue = response.data.venue;
-        artistData.location = response.data.location;
-        artistData.date = response.data.datetime;
+        eventData.artist = response.data.name;
+        eventData.venue = response.data.venue;
+        eventData.location = response.data.location;
+        eventData.date = response.data.datetime;
     })
         .catch(function (error) {
             if (error.response) {
@@ -106,9 +109,11 @@ var concertThis = (uIn) => {
                 console.log(error.response.data);
             }
         });
+    displayData(eventData);
+    logData(eventData);
 };
 
-var spotifyThisSong = (input) => {
+var spotifyThisSong = (song) => {
     // return artist(s)
     /* with package.json you can add all of the library dependancies with npm install in the command prompt */
     /* Need to add */
@@ -120,17 +125,17 @@ var spotifyThisSong = (input) => {
         if (err) {
             console.log(error.response.data);
         }
-            console.log("Artist: " + response.data.name);
-            artistData.artist = spotifyData.album.artists[0].name;
-            artistData.song = spotifyData.name;
-            artistData.songName = spotifyData.album.name;
-            artistData.previewLink = spotifyData.album.external_urls.spotify;
-        })
-        displayData(spotifyData);
-        logData(spotifyData);
-    };
+        console.log("Artist: " + response.data.name);
+        artistData.artist = spotifyData.album.artists[0].name;
+        artistData.song = spotifyData.name;
+        artistData.songName = spotifyData.album.name;
+        artistData.previewLink = spotifyData.album.external_urls.spotify;
+    })
+    displayData(spotifyData);
+    logData(spotifyData);
+};
 
-var movieThis = (this) => {
+var movieThis = (movie) => {
     /* Title of the movie.
    * Year the movie came out.
    * IMDB Rating of the movie.
@@ -141,24 +146,28 @@ var movieThis = (this) => {
    * Actors in the movie.
    -if not movie entered, return "Mr. Nobody" and console.log "Its on Netflix"
 */
-    axios.get("http://www.omdbapi.com/?t=" + userInput + "&y=&plot=short&api=trilogy").then(
-        function (response) {
-            console.log("The movie's rating is: " + response.data.movie);
-            // Year the movie came out.
-            movieData.movie = response.data.Title;
-            // IMDB Rating of the movie.
-            movieData.rating = response.data.Rated;
-            // Rotten Tomatoes Rating of the movie.
-            movieData.rottenRating = response.data.Ratings[1].Value; // find correct tag for this
-            // Country where the movie was produced.
-            movieData.country = response.data.Country // also this
-            // Language of the movie.
-            movieData.language = response.data.Language;
-            // Plot of the movie.
-            movieData.plot = response.data.Plot;
-            // Actors in the movie.
-            movieData.actors = response.data.Actors;
-        })
+    var queryURL = "http://www.omdbapi.com/?t=" + movie + "&apikey=" + omdbKey;
+    console.log(queryURL);
+
+    axios.get(queryURL)
+        .then(
+            function (response) {
+                console.log("The movie's rating is: " + response.data.movie);
+                // Year the movie came out.
+                movieData.movie = response.data.Title;
+                // IMDB Rating of the movie.
+                movieData.rating = response.data.Rated;
+                // Rotten Tomatoes Rating of the movie.
+                movieData.rottenRating = response.data.Ratings[1].Value; // find correct tag for this
+                // Country where the movie was produced.
+                movieData.country = response.data.Country // also this
+                // Language of the movie.
+                movieData.language = response.data.Language;
+                // Plot of the movie.
+                movieData.plot = response.data.Plot;
+                // Actors in the movie.
+                movieData.actors = response.data.Actors;
+            })
         .catch(function (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -167,18 +176,36 @@ var movieThis = (this) => {
                 console.log(error.response.data);
             }
         });
+    displayData(movieData);
+    logData(movieData);
 };
 
-    var doWhatItSays = (this) => {
-        // run SpotifyThis("I want it that way")
+var doWhatItSays = () => {
+    // run SpotifyThis("I want it that way")
+    spotifyThisSong("The Sign");
+    // run instructions from random.txt
+    fs.readFile('./random.txt', 'utf8', function (err, data) {
+        if (err) throw err;
+        var result = data.split(",")
+        console.log(result[1]);
+        searchSpotify(result[1]);
+    });
+};
 
-        // run instructions from random.txt
-    };
 
-
-var displayData(array){
-    console.log(artist.userCommand);
+var displayData = (array) => {
+    array.forEach(element => {
+        console.log(key + ": " + element);
+    });
 
 }
 
-var logData(array)
+var logData = (array) => {
+    array.forEach(element => {
+        
+    });
+    fs.appendFile('./random.txt', key + ": " + element, function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+      });
+}
