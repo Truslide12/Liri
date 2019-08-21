@@ -4,32 +4,33 @@ var fs = require("fs");
 var axios = require("axios");
 var bandsInTown = require("bandsintown")
 var omdbKey = require("./keys.js").omdbkey;
-var spotKey = require(".keys.js").spotify;
+var spotKey = require("./keys.js").spotify;
 var Spotify = require("node-spotify-api")
 var Spotify = new Spotify({
     id: spotKey.id,
     secret: spotKey.secret,
 })
 var moment = require("moment");
-var
+
 
 var userCommand = process.argv(2)
 console.log(userCommand);
-userCommand = userCommand.toLowerCase();
-console.log(userCommand);
+//userCommand = userCommand.toLowerCase();
+//console.log(userCommand);
 var userInput = process.argv(3);
-console.log(userInput);
-userInput = userInput.toLowerCase();
+//console.log(userInput);
+//userInput = userInput.toLowerCase();
 console.log(userInput);
 // Run the axios.get function...
 // The axios.get function takes in a URL and returns a promise (just like $.ajax)
-fs.exists("./liri.js", (exists) => {
+/*fs.exists("./liri.js", (exists) => {
     if (exists) {
         console.log("yes")
     } else {
         console.log("no")
     }
 });
+*/
 
 // create a new object with information for the information pull
 var artistData = {
@@ -46,6 +47,7 @@ var eventData = {
     location: "",
     date: "",
 }
+
 var movieData = {
     movie: "",
     year: "",
@@ -94,13 +96,14 @@ var concertThis = (artist) => {
     // return name of venue
     // venue location
     // date of the event
-    bandsInTown.get("https://rest.bandsintown.com/event/13722599?app_id=foo&" + artist + ).then(function (response) {
-        console.log("Artist: " + response.data.name);
-        eventData.artist = response.data.name;
-        eventData.venue = response.data.venue;
-        eventData.location = response.data.location;
-        eventData.date = response.data.datetime;
-    })
+    bandsInTown.get("https://rest.bandsintown.com/event/13722599?app_id=foo&" + artist + "/events?app_id=codingbootcamp");
+    axios.get(queryURL)
+        .then(function (response) {
+            console.log("Artist: " + response.data.name);
+            eventData.venue = concerts[0].venue.name;
+            eventData.location = concerts[0].venue.city;
+            eventData.date = moment(concerts[0].datetime).format('MMMM Do YYYY');
+        })
         .catch(function (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -202,10 +205,10 @@ var displayData = (array) => {
 
 var logData = (array) => {
     array.forEach(element => {
-        
+
     });
     fs.appendFile('./random.txt', key + ": " + element, function (err) {
         if (err) throw err;
         console.log('Saved!');
-      });
+    });
 }

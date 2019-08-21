@@ -1,4 +1,5 @@
-console.log('this is loaded');
+
+require("dotenv").config();
 
 exports.spotify = {
   id: process.env.SPOTIFY_ID,
@@ -8,3 +9,12 @@ exports.spotify = {
 exports.ombi = {
   apikey: "trilogy",
 }
+
+
+
+exports.spotify = {
+  id: process.env.SPOTIFY_CLIENT_ID,
+  secret: process.env.SPOTIFY_CLIENT_SECRET
+};
+
+exports.omdbkey = process.env.OMDB_API_KEY
