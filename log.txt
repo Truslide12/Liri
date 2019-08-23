@@ -24,4 +24,21 @@ Artist's Name: Ty Dolla $ign
 Song Name: Hottest In The City
 Album Name: Hottest In The City
 URL: https://open.spotify.com/album/7nP87PXdPv4oPYKWRc5x1z
+----------------------------------
+Artist's Name: Faith No More
+Song Name: Epic
+Album Name: The Real Thing
+URL: https://open.spotify.com/album/6LEP3L94jnkqjOxYJWPRP0
+----------------------------------
+High Times Cannabis Cup OKC
+Oklahoma City
+August 24th 2019
+----------------------------------
+Title: Nuns on the Run
+Year: PG-13
+Rating: 47%
+Rotten Tomato Rating: UK
+Language: English
+Plot: Brian and Charlie work for a gangster. When their boss learns they want to "leave", he sets them up to be killed, after they help rob the local Triads of their drug dealing profits. They ...
+Actors: Eric Idle, Robbie Coltrane, Camille Coduri, Janet Suzman
 -----------------
