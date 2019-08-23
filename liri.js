@@ -6,35 +6,16 @@ var Spotify = require("node-spotify-api");
 var keys = require("./keys.js");
 var axios = require("axios");
 var fs = require("fs");
-var bandsInTown = require("bandsintown")
 
-// var Spotify = new Spotify({
-//     id: spotKey.id,
-//     secret: spotKey.secret,
-// });
 var spotify = new Spotify(keys.spotify);
 
 var moment = require("moment");
 
-
 var userCommand = process.argv[2]
-console.log(userCommand);
-//userCommand = userCommand.toLowerCase();
 //console.log(userCommand);
+
 var userInput = process.argv[3];
 //console.log(userInput);
-//userInput = userInput.toLowerCase();
-console.log(userInput);
-// Run the axios.get function...
-// The axios.get function takes in a URL and returns a promise (just like $.ajax)
-/*fs.exists("./liri.js", (exists) => {
-    if (exists) {
-        console.log("yes")
-    } else {
-        console.log("no")
-    }
-});
-*/
 
 // create a new object with information for the information pull
 var artistData = {
@@ -70,15 +51,16 @@ var concertThis = (artist) => {
     // return name of venue
     // venue location
     // date of the event
-    bandsInTown.get("https://rest.bandsintown.com/event/13722599?app_id=foo&" + artist + "/events?app_id=codingbootcamp");
+    var queryURL="https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
     axios.get(queryURL)
         .then(function (response) {
-            console.log("Artist: " + response.data.name);
+            console.log(response);
             eventData.venue = concerts[0].venue.name;
             eventData.location = concerts[0].venue.city;
             eventData.date = moment(concerts[0].datetime).format('MMMM Do YYYY');
         })
         .catch(function (error) {
+            console.log(error);
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
@@ -86,8 +68,8 @@ var concertThis = (artist) => {
                 console.log(error.response.data);
             }
         });
-    displayData(eventData);
-    logData(eventData);
+    // displayData(eventData);
+    // logData(eventData);
 };
 
 var spotifyThisSong = (song) => {
@@ -97,8 +79,10 @@ var spotifyThisSong = (song) => {
     // the song name
     // preview link from spotify
     // the album of the song
+    console.log(song);
     spotify.search({ type: 'track', query: song }, function (err, data) {
-        var spotifyData = data.tracks.items[0];
+        console.log(data);
+        var spotifyData = data.tracks.items[0]; 
         if (err) {
             console.log(error.response.data);
         }
@@ -154,8 +138,8 @@ var movieThis = (movie) => {
                 console.log(error.response.data);
             }
         });
-    // displayData(movieData);
-    // logData(movieData);
+    displayData(movieData);
+    logData(movieData);
 };
 
 var doWhatItSays = () => {
@@ -172,50 +156,49 @@ var doWhatItSays = () => {
 
 
 var displayData = (array) => {
-    array.forEach(element => {
-        console.log(key + ": " + element);
-    });
+    console.log("displayData Running")
+    for (var i = 0; i < array.lenth; i++) {
+        console.log(arrayt[i].key + ": " + array[i].element);
+    };
 }
-
-// run user command
-switch (userCommand) {
-
-    case "concert-this":
-        if (userInput === undefined || userInput === null) {
-            console.log("Please enter an artist or band name")
-        }
-        concertThis(userInput);
-        break;
-
-    case "spotify-this":
-        if (userInput === undefined || userInput === null) {
-            uIn = "Ace of Base";
-        }
-        spotifyThisSong(userInput);
-        break;
-
-    case "movie-this":
-        if (userInput === undefined || userInput === null) {
-            userInput = "Mr. Nobody";
-        }
-        console.log("works");
-        movieThis(userInput);
-        break;
-
-    case "do-what-it-says":
-        doWhatItSays()
-
-    default:
-        console.log("Please enter an approprite command")
-}
-
-
 var logData = (array) => {
-    array.forEach(element => {
-
-    });
-    fs.appendFile('./random.txt', key + ": " + element, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+    console.log("logData Running")
+    for (var i = 0; i < array.lenth; i++) {
+        fs.appendFile('./random.txt', key + ": " + element, function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });
+    }
 }
+    // run user command
+    switch (userCommand) {
+
+        case "concert-this":
+            if (userInput === undefined || userInput === null) {
+                console.log("Please enter an artist or band name")
+            }
+            concertThis(userInput);
+            break;
+
+        case "spotify-this":
+            if (userInput === undefined || userInput === null) {
+                uIn = "Ace of Base";
+            }
+            spotifyThisSong(userInput);
+            break;
+
+        case "movie-this":
+            if (userInput === undefined || userInput === null) {
+                userInput = "Mr. Nobody";
+            }
+            console.log("works");
+            movieThis(userInput);
+            break;
+
+        case "do-what-it-says":
+            doWhatItSays();
+            break;
+
+        default:
+            console.log("Please enter an approprite command")
+    }
