@@ -1,23 +1,27 @@
 // Basic Node application for requesting data from the OMDB website via axios
 // Grab the axios package...
-var fs = require("fs");
-var axios = require("axios");
-var bandsInTown = require("bandsintown")
+require("dotenv").config();
 var omdbKey = require("./keys.js").omdbkey;
-var spotKey = require("./keys.js").spotify;
-var Spotify = require("node-spotify-api")
-var Spotify = new Spotify({
-    id: spotKey.id,
-    secret: spotKey.secret,
-})
+var Spotify = require("node-spotify-api");
+var keys = require("./keys.js");
+var axios = require("axios");
+var fs = require("fs");
+var bandsInTown = require("bandsintown")
+
+// var Spotify = new Spotify({
+//     id: spotKey.id,
+//     secret: spotKey.secret,
+// });
+var spotify = new Spotify(keys.spotify);
+
 var moment = require("moment");
 
 
-var userCommand = process.argv(2)
+var userCommand = process.argv[2]
 console.log(userCommand);
 //userCommand = userCommand.toLowerCase();
 //console.log(userCommand);
-var userInput = process.argv(3);
+var userInput = process.argv[3];
 //console.log(userInput);
 //userInput = userInput.toLowerCase();
 console.log(userInput);
@@ -57,36 +61,6 @@ var movieData = {
     language: "",
     plot: "",
     actors: "",
-}
-
-switch (command) {
-
-    case "concert-this":
-        if (userInput === undefined || userInput === null) {
-            console.log("Please enter an artist or band name")
-        }
-        concertThis(userInput);
-        break;
-
-    case "spotify-this":
-        if (userInput === undefined || userInput === null) {
-            uIn = "Ace of Base";
-        }
-        spotifyThisSong(userInput);
-        break;
-
-    case "movie-this":
-        if (userInput === undefined || userInput === null) {
-            userInput = "Mr. Nobody";
-        }
-        movieThis(userInput);
-        break;
-
-    case "do-what-it-says":
-        doWhatItSays()
-
-    default:
-        console.log("Please enter an approprite command")
 }
 
 //---------------- Fucntions ------------------//
@@ -200,6 +174,37 @@ var displayData = (array) => {
     array.forEach(element => {
         console.log(key + ": " + element);
     });
+
+// run user command
+switch (userCommand) {
+
+    case "concert-this":
+        if (userInput === undefined || userInput === null) {
+            console.log("Please enter an artist or band name")
+        }
+        concertThis(userInput);
+        break;
+
+    case "spotify-this":
+        if (userInput === undefined || userInput === null) {
+            uIn = "Ace of Base";
+        }
+        spotifyThisSong(userInput);
+        break;
+
+    case "movie-this":
+        if (userInput === undefined || userInput === null) {
+            userInput = "Mr. Nobody";
+        }
+        movieThis(userInput);
+        break;
+
+    case "do-what-it-says":
+        doWhatItSays()
+
+    default:
+        console.log("Please enter an approprite command")
+}
 
 }
 
