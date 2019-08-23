@@ -40,7 +40,7 @@ var concertThis = (artist) => {
                     "Venue Location: " + concerts[0].venue.city + "\n" +
                     "Date: " + moment(concerts[0].datetime).format('MMMM Do YYYY'));
 
-                fs.appendFile('./random.txt', '-----------------' + "\n" +
+                fs.appendFile('./log.txt', '-----------------' + "\n" +
                     concerts[0].venue.name + "\n" +
                     concerts[0].venue.city + "\n" +
                     moment(concerts[0].datetime).format('MMMM Do YYYY') + "\n" +
@@ -67,20 +67,27 @@ var spotifyThisSong = (song) => {
     // the song name
     // preview link from spotify
     // the album of the song
-    console.log(song);
+    //console.log(song);
     spotify.search({ type: 'track', query: song }, function (err, data) {
         var spotifyData = data.tracks.items[0];
-        console.log(spotifyData);
+        //console.log(spotifyData);
         if (err) {
             console.log(error.response.data);
         } else {
-            console.log(potifyData.artists.name);
-            console.log("Artist's Name: " + spotifyData.album.artists[0].name);
-            console.log("Song Name: " + spotifyData.name);
-            console.log("Album Name: " + spotifyData.album.name);
-            console.log("URL: " + spotifyData.album.external_urls.spotify);
-            //displayData(artistData),
-            //logData(artistData)
+            console.log('-----------------' + "\n" + 
+            "Artist's Name: " + spotifyData.album.artists[0].name + "\n" + 
+            "Song Name: " + spotifyData.name + "\n" + 
+            "Album Name: " + spotifyData.album.name + "\n" + 
+            "URL: " + spotifyData.album.external_urls.spotify + "\n" +
+            '-----------------');
+            fs.appendFile('./log.txt', '-----------------' + "\n" + 
+            "Artist's Name: " + spotifyData.album.artists[0].name + "\n" + 
+            "Song Name: " + spotifyData.name + "\n" + 
+            "Album Name: " + spotifyData.album.name + "\n" + 
+            "URL: " + spotifyData.album.external_urls.spotify + "\n" +
+            '-----------------', function (err) {
+                console.log('Saved!');
+            });
         }
     });
 };
@@ -114,7 +121,7 @@ var movieThis = (movie) => {
                     "Actors: " + response.data.Actors + "\n" +
                     '-----------------');
                 console.log("logData Running")
-                fs.appendFile('./random.txt', '-----------------' + "\n" +
+                fs.appendFile('./log.txt', '-----------------' + "\n" +
                     "Title: " + response.data.Title + "\n" +
                     "Year: " + response.data.Rated + "\n" +
                     "Rating: " + response.data.Ratings[1].Value + "\n" +
