@@ -14,7 +14,7 @@ var moment = require("moment");
 var userCommand = process.argv[2]
 //console.log(userCommand);
 
-var userInput = process.argv[3];
+var userInput = process.argv[3]//.split(" ",3).join("+");
 //console.log(userInput);
 
 // create a new object with information for the information pull
@@ -79,18 +79,19 @@ var spotifyThisSong = (song) => {
     // the song name
     // preview link from spotify
     // the album of the song
-    console.log(song);
+    //console.log(song);
     spotify.search({ type: 'track', query: song }, function (err, data) {
-        console.log(data);
         var spotifyData = data.tracks.items[0]; 
+        //console.log(spotifyData);
         if (err) {
             console.log(error.response.data);
-        }
-        console.log("Artist: " + response.data.name);
-        artistData.artist = spotifyData.album.artists[0].name;
+        } else {
+        //console.log("Artist: " + spotifyData.name);
+        artistData.artist = spotifyData.artists.name;
         artistData.song = spotifyData.name;
         artistData.songName = spotifyData.album.name;
-        artistData.previewLink = spotifyData.album.external_urls.spotify;
+        artistData.previewLink = spotifyData.external_urls;
+        }
     })
     displayData(artistData);
     logData(artistData);
