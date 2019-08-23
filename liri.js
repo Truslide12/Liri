@@ -151,7 +151,7 @@ var doWhatItSays = () => {
         if (err) throw err;
         var result = data.split(",")
         console.log(result[1]);
-        searchSpotify(result[1]);
+        spotifyThisSong(result[1]);
     });
 };
 

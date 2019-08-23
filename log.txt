@@ -14,4 +14,14 @@ Artist's Name: Faith No More
 Song Name: Epic
 Album Name: The Real Thing
 URL: https://open.spotify.com/album/6LEP3L94jnkqjOxYJWPRP0
+----------------------------------
+Artist's Name: Backstreet Boys
+Song Name: I Want It That Way
+Album Name: The Hits--Chapter One
+URL: https://open.spotify.com/album/1NslKOZobWxINFaFkLol3r
+----------------------------------
+Artist's Name: Ty Dolla $ign
+Song Name: Hottest In The City
+Album Name: Hottest In The City
+URL: https://open.spotify.com/album/7nP87PXdPv4oPYKWRc5x1z
 -----------------
