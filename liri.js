@@ -108,8 +108,8 @@ var spotifyThisSong = (song) => {
         artistData.songName = spotifyData.album.name;
         artistData.previewLink = spotifyData.album.external_urls.spotify;
     })
-    displayData(spotifyData);
-    logData(spotifyData);
+    displayData(artistData);
+    logData(artistData);
 };
 
 var movieThis = (movie) => {
@@ -123,13 +123,14 @@ var movieThis = (movie) => {
    * Actors in the movie.
    -if not movie entered, return "Mr. Nobody" and console.log "Its on Netflix"
 */
+    console.log(omdbKey)
     var queryURL = "http://www.omdbapi.com/?t=" + movie + "&apikey=" + omdbKey;
     console.log(queryURL);
 
     axios.get(queryURL)
         .then(
             function (response) {
-                console.log("The movie's rating is: " + response.data.movie);
+                console.log(response);
                 // Year the movie came out.
                 movieData.movie = response.data.Title;
                 // IMDB Rating of the movie.
@@ -153,8 +154,8 @@ var movieThis = (movie) => {
                 console.log(error.response.data);
             }
         });
-    displayData(movieData);
-    logData(movieData);
+    // displayData(movieData);
+    // logData(movieData);
 };
 
 var doWhatItSays = () => {
@@ -174,6 +175,7 @@ var displayData = (array) => {
     array.forEach(element => {
         console.log(key + ": " + element);
     });
+}
 
 // run user command
 switch (userCommand) {
@@ -196,6 +198,7 @@ switch (userCommand) {
         if (userInput === undefined || userInput === null) {
             userInput = "Mr. Nobody";
         }
+        console.log("works");
         movieThis(userInput);
         break;
 
@@ -206,7 +209,6 @@ switch (userCommand) {
         console.log("Please enter an approprite command")
 }
 
-}
 
 var logData = (array) => {
     array.forEach(element => {
